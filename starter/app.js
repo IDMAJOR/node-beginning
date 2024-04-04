@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const tasks = require('./routes/task')
+const connetDb = require('./db/connect');
 
 // middlewares
 app.use(express.json());
