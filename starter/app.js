@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const tasks = require('./routes/task')
-const connetDb = require('./db/connect');
+const connetDb = require('./database/connection');
+require('dotenv').config();
 
 // middlewares
 app.use(express.json());
@@ -21,4 +22,15 @@ app.use('/api/v1/tasks', tasks);
 // app.delete('api/v1/tasks/:id')   -deletes a task
 
 const PORT = 3020;
-app.listen(PORT, console.log(`listening on port ${PORT}...`));
+
+const startConnection = async () => {
+    try {
+        await connetDb(process.env.MONGO_URI)
+        console.log('Connected to the dataBase')
+        app.listen(PORT, console.log(`listening on port ${PORT}...`));
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+startConnection();
